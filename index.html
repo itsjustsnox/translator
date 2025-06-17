@@ -1,49 +1,75 @@
-import React, { useState } from 'react'; import { motion } from 'framer-motion'; import { Loader, Camera } from 'lucide-react';
+<?xml version="1.0" encoding="utf-8"?><LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:orientation="vertical"
+android:padding="16dp"
+android:background="#1c1c2c"
+tools:context=".MainActivity">
 
-const languages = [ { code: 'en', name: 'English' }, { code: 'ar', name: 'Arabic' }, { code: 'fr', name: 'French' }, { code: 'es', name: 'Spanish' }, { code: 'zh', name: 'Chinese' }, { code: 'ru', name: 'Russian' }, { code: 'de', name: 'German' }, { code: 'hi', name: 'Hindi' }, ];
+<TextView
+    android:id="@+id/titleText"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="🌐 Ultra Translator Pro"
+    android:textSize="24sp"
+    android:textStyle="bold"
+    android:textColor="#FFFFFF"
+    android:gravity="center"
+    android:layout_marginBottom="16dp" />
 
-export default function TranslatorApp() { const [text, setText] = useState(''); const [translations, setTranslations] = useState([]); const [loading, setLoading] = useState(false);
+<EditText
+    android:id="@+id/inputText"
+    android:layout_width="match_parent"
+    android:layout_height="120dp"
+    android:hint="اكتب أي شيء للترجمة..."
+    android:gravity="top|start"
+    android:background="#2b2b44"
+    android:textColor="#FFFFFF"
+    android:hintTextColor="#AAAAAA"
+    android:padding="12dp"
+    android:textSize="16sp"
+    android:layout_marginBottom="12dp" />
 
-const translateToAll = async () => { setLoading(true); const fakeTranslate = (text, lang) => ${text} (${lang.name}); const result = languages.map(lang => ({ lang: lang.name, translation: fakeTranslate(text, lang) })); setTranslations(result); setLoading(false); };
+<Button
+    android:id="@+id/translateBtn"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="ترجم إلى كل اللغات"
+    android:textSize="16sp"
+    android:backgroundTint="#6366F1"
+    android:textColor="#FFFFFF"
+    android:layout_marginBottom="16dp" />
 
-return ( <main style={{ minHeight: '100vh', background: 'linear-gradient(to bottom right, #1c1c2c, #3c3c64)', color: 'white', padding: '24px' }}> <div style={{ maxWidth: '768px', margin: '0 auto' }}> <motion.h1 style={{ fontSize: '2.5rem', fontWeight: 'bold', marginBottom: '24px', textAlign: 'center' }} initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.8 }}> 🌐 Ultra Translator Pro </motion.h1>
+<ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="0dp"
+    android:layout_weight="1"
+    android:layout_marginBottom="16dp">
 
-<div style={{ backgroundColor: '#2b2b44', borderRadius: '16px', padding: '24px', boxShadow: '0 0 20px rgba(0,0,0,0.3)' }}>
-      <textarea
-        placeholder="اكتب أي شيء للترجمة..."
-        value={text}
-        onChange={(e) => setText(e.target.value)}
-        style={{ width: '100%', height: '120px', padding: '12px', fontSize: '1rem', backgroundColor: '#1f1f33', color: 'white', border: 'none', borderRadius: '8px', marginBottom: '16px' }}
-      />
-      <button onClick={translateToAll} disabled={loading} style={{ width: '100%', padding: '12px', backgroundColor: '#6366f1', color: 'white', borderRadius: '8px', fontSize: '1rem', border: 'none', cursor: 'pointer' }}>
-        {loading ? <Loader style={{ animation: 'spin 1s linear infinite' }} /> : 'ترجم إلى كل اللغات'}
-      </button>
-    </div>
+    <LinearLayout
+        android:id="@+id/resultContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" />
+</ScrollView>
 
-    {translations.length > 0 && (
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px', marginTop: '24px' }}>
-        {translations.map((t, idx) => (
-          <motion.div key={idx} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: idx * 0.1 }}>
-            <div style={{ backgroundColor: '#202034', border: '1px solid #6366f1', borderRadius: '12px', padding: '16px' }}>
-              <h2 style={{ fontSize: '1.25rem', fontWeight: '600', color: '#a5b4fc' }}>{t.lang}</h2>
-              <p style={{ marginTop: '8px', fontSize: '1rem', color: 'white' }}>{t.translation}</p>
-            </div>
-          </motion.div>
-        ))}
-      </div>
-    )}
+<Button
+    android:id="@+id/cameraBtn"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="📸 ترجمة من صورة (قريبًا)"
+    android:textSize="14sp"
+    android:backgroundTint="#2b2b44"
+    android:textColor="#A5B4FC"
+    android:layout_marginBottom="24dp" />
 
-    <div style={{ marginTop: '40px', textAlign: 'center' }}>
-      <button style={{ padding: '12px 24px', border: '1px solid #6366f1', borderRadius: '8px', background: 'transparent', color: '#a5b4fc', cursor: 'pointer', fontSize: '1rem' }}>
-        <Camera style={{ marginRight: '8px', verticalAlign: 'middle' }} /> ترجمة من صورة (قريبًا)
-      </button>
-    </div>
+<TextView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="Made by Omar Alhlal — Instagram: @wh3.t"
+    android:textSize="12sp"
+    android:textColor="#A5B4FC"
+    android:gravity="center" />
 
-    <footer style={{ marginTop: '40px', textAlign: 'center', fontSize: '0.875rem', color: '#a5b4fc' }}>
-      Made by <strong>Omar Alhlal</strong> — Instagram: <a href="https://instagram.com/wh3.t" style={{ textDecoration: 'underline', color: '#a5b4fc' }} target="_blank" rel="noopener noreferrer">@wh3.t</a>
-    </footer>
-  </div>
-</main>
-
-); }
-
+</LinearLayout>
