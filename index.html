@@ -1,0 +1,53 @@
+import React, { useState } from 'react'; import { Card, CardContent } from "@/components/ui/card"; import { Input } from "@/components/ui/input"; import { Button } from "@/components/ui/button"; import { Textarea } from "@/components/ui/textarea"; import { Loader, Camera } from 'lucide-react'; import { motion } from 'framer-motion';
+
+const languages = [ { code: 'en', name: 'English' }, { code: 'ar', name: 'Arabic' }, { code: 'fr', name: 'French' }, { code: 'es', name: 'Spanish' }, { code: 'zh', name: 'Chinese' }, { code: 'ru', name: 'Russian' }, { code: 'de', name: 'German' }, { code: 'hi', name: 'Hindi' }, ];
+
+export default function TranslatorApp() { const [text, setText] = useState(''); const [translations, setTranslations] = useState([]); const [loading, setLoading] = useState(false);
+
+const translateToAll = async () => { setLoading(true); const fakeTranslate = (text, lang) => ${text} (${lang.name}); // Replace with real API const result = languages.map(lang => ({ lang: lang.name, translation: fakeTranslate(text, lang) })); setTranslations(result); setLoading(false); };
+
+return ( <main className="min-h-screen bg-gradient-to-br from-[#1c1c2c] to-[#3c3c64] text-white p-6"> <div className="max-w-4xl mx-auto"> <motion.h1 className="text-4xl font-bold mb-6 text-center" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.8 }}> 🌐 Ultra Translator Pro </motion.h1>
+
+<Card className="bg-[#2b2b44] shadow-xl rounded-2xl">
+      <CardContent className="space-y-4 p-6">
+        <Textarea
+          placeholder="اكتب أي شيء للترجمة..."
+          value={text}
+          onChange={(e) => setText(e.target.value)}
+          className="text-base bg-[#1f1f33] text-white border-none focus:ring-2 focus:ring-indigo-400"
+        />
+        <Button onClick={translateToAll} disabled={loading} className="w-full bg-indigo-500 hover:bg-indigo-600">
+          {loading ? <Loader className="animate-spin" /> : 'ترجم إلى كل اللغات'}
+        </Button>
+      </CardContent>
+    </Card>
+
+    {translations.length > 0 && (
+      <div className="grid md:grid-cols-2 gap-4 mt-6">
+        {translations.map((t, idx) => (
+          <motion.div key={idx} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: idx * 0.1 }}>
+            <Card className="bg-[#202034] border border-indigo-500 rounded-xl">
+              <CardContent className="p-4">
+                <h2 className="text-xl font-semibold mb-2 text-indigo-300">{t.lang}</h2>
+                <p className="text-white text-base leading-relaxed">{t.translation}</p>
+              </CardContent>
+            </Card>
+          </motion.div>
+        ))}
+      </div>
+    )}
+
+    <div className="mt-10 flex flex-col items-center space-y-4">
+      <Button variant="outline" className="text-indigo-300 border-indigo-500">
+        <Camera className="mr-2" /> ترجمة من صورة (قريبًا)
+      </Button>
+    </div>
+
+    <footer className="mt-10 text-center text-sm text-indigo-300">
+      Made by <span className="font-semibold">Omar Alhlal</span> — Instagram: <a href="https://instagram.com/wh3.t" className="underline hover:text-indigo-400" target="_blank" rel="noopener noreferrer">@wh3.t</a>
+    </footer>
+  </div>
+</main>
+
+); }
+
